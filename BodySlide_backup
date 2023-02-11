@@ -1,0 +1,656 @@
+-- MySQL dump 10.13  Distrib 8.0.30, for Linux (x86_64)
+--
+-- Host: localhost    Database: BodySlide
+-- ------------------------------------------------------
+-- Server version	8.0.30-0ubuntu0.22.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `SpaMasseuses`
+--
+
+DROP TABLE IF EXISTS `SpaMasseuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `SpaMasseuses` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `spaId` int DEFAULT NULL,
+  `masseuseId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `spaId` (`spaId`),
+  KEY `masseuseId` (`masseuseId`),
+  CONSTRAINT `SpaMasseuses_ibfk_1023` FOREIGN KEY (`spaId`) REFERENCES `spas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `SpaMasseuses_ibfk_1024` FOREIGN KEY (`masseuseId`) REFERENCES `masseuses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SpaMasseuses`
+--
+
+LOCK TABLES `SpaMasseuses` WRITE;
+/*!40000 ALTER TABLE `SpaMasseuses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SpaMasseuses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SpaServices`
+--
+
+DROP TABLE IF EXISTS `SpaServices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `SpaServices` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `spaId` int DEFAULT NULL,
+  `serviceId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `spaId` (`spaId`),
+  KEY `serviceId` (`serviceId`),
+  CONSTRAINT `SpaServices_ibfk_1029` FOREIGN KEY (`spaId`) REFERENCES `spas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `SpaServices_ibfk_1030` FOREIGN KEY (`serviceId`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SpaServices`
+--
+
+LOCK TABLES `SpaServices` WRITE;
+/*!40000 ALTER TABLE `SpaServices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SpaServices` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `adminSessions`
+--
+
+DROP TABLE IF EXISTS `adminSessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `adminSessions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `expires` datetime DEFAULT NULL,
+  `accessToken` text NOT NULL,
+  `refreshToken` text,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `adminSessions_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `admins` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=279 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `adminSessions`
+--
+
+LOCK TABLES `adminSessions` WRITE;
+/*!40000 ALTER TABLE `adminSessions` DISABLE KEYS */;
+INSERT INTO `adminSessions` VALUES (273,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtaTQ3NzA0OEBnbWFpbC5jb20iLCJpYXQiOjE2NjY2ODkwNTksImV4cCI6MTY2NjY5NjI1OX0.F14ynE3uF5_DTZNytDtxIKF2D6ZBq3VGS4LTomB6YwY',NULL,'2022-10-25 09:10:59','2022-10-25 09:10:59',1),(274,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtaTQ3NzA0OEBnbWFpbC5jb20iLCJpYXQiOjE2NjY3Nzc1OTQsImV4cCI6MTY2Njc4NDc5NH0.Lc2skIsFOWvdgX84-29yVea0YwQgQG_GBJazCIcmreM',NULL,'2022-10-26 09:46:34','2022-10-26 09:46:34',1),(275,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtaTQ3NzA0OEBnbWFpbC5jb20iLCJpYXQiOjE2NjY3NzkyMjEsImV4cCI6MTY2Njc4NjQyMX0.ef9WSQHI915nuNjBbttY5osklcleehts0C3vD7DMdA8',NULL,'2022-10-26 10:13:41','2022-10-26 10:13:41',1),(276,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtaTQ3NzA0OEBnbWFpbC5jb20iLCJpYXQiOjE2NjY4NzczNTEsImV4cCI6MTY2Njg4NDU1MX0.PbOpJblbfvv_PQ8_EwxNJO3xvH41PusAJsmmxrbsvVg',NULL,'2022-10-27 13:29:11','2022-10-27 13:29:11',1),(277,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtaTQ3NzA0OEBnbWFpbC5jb20iLCJpYXQiOjE2NjY4NzczNjMsImV4cCI6MTY2Njg4NDU2M30.lXrhKv30j1bdYg_p3eB42NM_fwdqtmvHQofmmr7BhcM',NULL,'2022-10-27 13:29:23','2022-10-27 13:29:23',1),(278,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtaTQ3NzA0OEBnbWFpbC5jb20iLCJpYXQiOjE2NjY4OTQ3NjMsImV4cCI6MTY2NjkwMTk2M30.tmRVslE26AAJlI6m11Byolc5y2LlWTyWIkIqFqtc-l4',NULL,'2022-10-27 18:19:23','2022-10-27 18:19:23',1);
+/*!40000 ALTER TABLE `adminSessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `admins`
+--
+
+DROP TABLE IF EXISTS `admins`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `admins` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `firstName` varchar(255) DEFAULT NULL,
+  `lastName` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `isVerified` tinyint(1) NOT NULL DEFAULT '0',
+  `code` int DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `admins_email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admins`
+--
+
+LOCK TABLES `admins` WRITE;
+/*!40000 ALTER TABLE `admins` DISABLE KEYS */;
+INSERT INTO `admins` VALUES (1,'Muhammad ','Ismail','mi477048@gmail.com','$2a$12$M86.c9VN62Pnw.eeRUEAzOojQw2aR.HYL7EOechaS1FiNT0eJIIl6',1,3316,'2022-09-01 10:08:14','2022-10-11 07:15:23');
+/*!40000 ALTER TABLE `admins` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `businesspurposes`
+--
+
+DROP TABLE IF EXISTS `businesspurposes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `businesspurposes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `businesspurposes`
+--
+
+LOCK TABLES `businesspurposes` WRITE;
+/*!40000 ALTER TABLE `businesspurposes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `businesspurposes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cities`
+--
+
+DROP TABLE IF EXISTS `cities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cities`
+--
+
+LOCK TABLES `cities` WRITE;
+/*!40000 ALTER TABLE `cities` DISABLE KEYS */;
+INSERT INTO `cities` VALUES (1,'New York',0,'2022-09-05 07:52:07','2022-09-05 07:52:07'),(2,'Chicago',0,'2022-09-05 07:52:07','2022-09-05 07:52:07'),(3,'Los Angeles',0,'2022-09-05 07:52:07','2022-09-05 07:52:07');
+/*!40000 ALTER TABLE `cities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `homepages`
+--
+
+DROP TABLE IF EXISTS `homepages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `homepages` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `homepages`
+--
+
+LOCK TABLES `homepages` WRITE;
+/*!40000 ALTER TABLE `homepages` DISABLE KEYS */;
+INSERT INTO `homepages` VALUES (2,'<h1>dhgtjhkiijlkjlkjlkjk</h1>','ImagesHomepage/city2.jpg-1666683330528.jpg',1,'2022-10-25 07:35:30','2022-10-25 09:11:21'),(3,'<p>gghghhj</p>','ImagesHomepage/download.jpg-1666698131533.jpg',1,'2022-10-25 11:42:11','2022-10-25 11:44:57');
+/*!40000 ALTER TABLE `homepages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `masseuseforums`
+--
+
+DROP TABLE IF EXISTS `masseuseforums`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `masseuseforums` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `topic` varchar(255) DEFAULT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  `masseuseId` int DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `masseuseId` (`masseuseId`),
+  CONSTRAINT `masseuseforums_ibfk_1017` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `masseuseforums_ibfk_1018` FOREIGN KEY (`masseuseId`) REFERENCES `masseuses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `masseuseforums`
+--
+
+LOCK TABLES `masseuseforums` WRITE;
+/*!40000 ALTER TABLE `masseuseforums` DISABLE KEYS */;
+/*!40000 ALTER TABLE `masseuseforums` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `masseuses`
+--
+
+DROP TABLE IF EXISTS `masseuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `masseuses` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `specialization` varchar(255) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `images` json DEFAULT NULL,
+  `phone` varchar(255) NOT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `hourOfOpertaion` json DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `services` json DEFAULT NULL,
+  `isApproved` tinyint(1) NOT NULL DEFAULT '0',
+  `userId` int DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  `views` int NOT NULL DEFAULT '0',
+  `city` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `masseuses_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `masseuses`
+--
+
+LOCK TABLES `masseuses` WRITE;
+/*!40000 ALTER TABLE `masseuses` DISABLE KEYS */;
+INSERT INTO `masseuses` VALUES (23,'many',0,'2022-11-01 10:18:42','2022-11-01 10:18:42','new masseuse','[{\"img\": \"16672979218001eey41ditl9y24u14.jpg\"}, {\"img\": \"16672979218011eey41ditl9y24u15.jpg\"}, {\"img\": \"16672979218011eey41ditl9y24u16.jpg\"}]','03029463719','www.bodyslider.com','[{\"mon\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"tue\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"true\"}}, {\"wed\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"thu\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"true\"}}, {\"fri\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sat\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"true\"}}, {\"sun\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}]','Pakistan kpk','instagram.org','instagram.org','instagram.org','[1, 2, 3, 4]',0,1,'comment goes here',0,'Samarbagh'),(24,'high',0,'2022-11-01 12:42:00','2022-11-01 12:42:00','ghhgh','[{\"img\": \"16673065204571eey41kedl9y794sp.png\"}]','hvgk',NULL,'[{\"mon\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"tue\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"wed\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"thu\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"fri\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sat\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sun\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}]','gfhj',NULL,NULL,NULL,'[1, 2, 3, 4]',0,7,NULL,0,'isb'),(25,'hjh',0,'2022-11-01 12:45:03','2022-11-01 12:45:03','vjh','[{\"img\": \"16673067031221eey41kedl9y7d1qq.png\"}]','979868767576','kjjkhkj','[{\"mon\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"tue\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"wed\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"thu\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"fri\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sat\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sun\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}]','vjvjvhjv',NULL,NULL,NULL,'[1, 2, 3, 4]',0,7,NULL,0,'kjkjhk');
+/*!40000 ALTER TABLE `masseuses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reviewratingmasseuses`
+--
+
+DROP TABLE IF EXISTS `reviewratingmasseuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reviewratingmasseuses` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `review` varchar(255) DEFAULT NULL,
+  `rating` int DEFAULT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  `masseuseId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `masseuseId` (`masseuseId`),
+  CONSTRAINT `reviewratingmasseuses_ibfk_195` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `reviewratingmasseuses_ibfk_196` FOREIGN KEY (`masseuseId`) REFERENCES `masseuses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reviewratingmasseuses`
+--
+
+LOCK TABLES `reviewratingmasseuses` WRITE;
+/*!40000 ALTER TABLE `reviewratingmasseuses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reviewratingmasseuses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reviewratingspas`
+--
+
+DROP TABLE IF EXISTS `reviewratingspas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reviewratingspas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `Review` varchar(255) NOT NULL,
+  `Rating` int DEFAULT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  `spaId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `spaId` (`spaId`),
+  CONSTRAINT `reviewratingspas_ibfk_1025` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `reviewratingspas_ibfk_1026` FOREIGN KEY (`spaId`) REFERENCES `spas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reviewratingspas`
+--
+
+LOCK TABLES `reviewratingspas` WRITE;
+/*!40000 ALTER TABLE `reviewratingspas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reviewratingspas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `services`
+--
+
+DROP TABLE IF EXISTS `services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `services` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `services`
+--
+
+LOCK TABLES `services` WRITE;
+/*!40000 ALTER TABLE `services` DISABLE KEYS */;
+/*!40000 ALTER TABLE `services` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spacomments`
+--
+
+DROP TABLE IF EXISTS `spacomments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `spacomments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `parentId` int DEFAULT NULL,
+  `mediaLink` varchar(255) DEFAULT NULL,
+  `comment` varchar(255) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  `forumId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parentId` (`parentId`),
+  KEY `userId` (`userId`),
+  KEY `forumId` (`forumId`),
+  CONSTRAINT `spacomments_ibfk_1122` FOREIGN KEY (`parentId`) REFERENCES `spacomments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `spacomments_ibfk_1123` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `spacomments_ibfk_1124` FOREIGN KEY (`forumId`) REFERENCES `masseuseforums` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spacomments`
+--
+
+LOCK TABLES `spacomments` WRITE;
+/*!40000 ALTER TABLE `spacomments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spacomments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spacomments12s`
+--
+
+DROP TABLE IF EXISTS `spacomments12s`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `spacomments12s` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `parentId` int DEFAULT NULL,
+  `mediaLink` varchar(255) DEFAULT NULL,
+  `comment` varchar(255) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  `forumId` int DEFAULT NULL,
+  `spaId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parentId` (`parentId`),
+  KEY `userId` (`userId`),
+  KEY `forumId` (`forumId`),
+  KEY `spaId` (`spaId`),
+  CONSTRAINT `spacomments12s_ibfk_502` FOREIGN KEY (`parentId`) REFERENCES `spacomments12s` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `spacomments12s_ibfk_503` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `spacomments12s_ibfk_504` FOREIGN KEY (`forumId`) REFERENCES `spaforums` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `spacomments12s_ibfk_505` FOREIGN KEY (`spaId`) REFERENCES `spas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spacomments12s`
+--
+
+LOCK TABLES `spacomments12s` WRITE;
+/*!40000 ALTER TABLE `spacomments12s` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spacomments12s` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spaforums`
+--
+
+DROP TABLE IF EXISTS `spaforums`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `spaforums` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `topic` varchar(255) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  `spaId` int DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `spaId` (`spaId`),
+  CONSTRAINT `spaforums_ibfk_1027` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `spaforums_ibfk_1028` FOREIGN KEY (`spaId`) REFERENCES `spas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spaforums`
+--
+
+LOCK TABLES `spaforums` WRITE;
+/*!40000 ALTER TABLE `spaforums` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spaforums` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spas`
+--
+
+DROP TABLE IF EXISTS `spas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `spas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `image` json DEFAULT NULL,
+  `phone` varchar(255) NOT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `hourOfOpertaion` json DEFAULT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `userId` int DEFAULT NULL,
+  `isApproved` tinyint(1) NOT NULL DEFAULT '0',
+  `services` json DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  `views` int NOT NULL DEFAULT '0',
+  `city` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `spas_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spas`
+--
+
+LOCK TABLES `spas` WRITE;
+/*!40000 ALTER TABLE `spas` DISABLE KEYS */;
+INSERT INTO `spas` VALUES (24,'abc','[{\"img\": \"16672965171531eey41ditl9y1aq76.png\"}]','12345677','znmghjgklklhcn','[{\"mon\": {\"to\": \"14:53\", \"from\": \"03:54\", \"isOpen\": \"true\"}}, {\"tue\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"wed\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"thu\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"fri\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sat\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sun\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}]',0,'2022-11-01 09:55:17','2022-11-01 09:55:17','isb',7,0,'[\"hh\", \"jh\"]','hgkhgkgkjglkvgnhjxdshsgr',0,'city'),(25,'hgsdkwgdjwdgj,w','[{\"img\": \"16672966258961eey41ditl9y1d23s.png\"}]','snbd,jd,cf','bmhfckhsfcksfcs','[{\"mon\": {\"to\": \"15:57\", \"from\": \"14:56\", \"isOpen\": \"true\"}}, {\"tue\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"wed\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"thu\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"fri\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sat\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sun\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}]',1,'2022-11-01 09:57:06','2022-11-01 09:57:18','jwgdkegf',7,0,'[\"mobile\"]','mhsgkcxjgfcl,jqgcwvmjscgj',0,'svhmhckdyq'),(26,'new spa ','[{\"img\": \"16672978504721eey41ditl9y23azs.jpg\"}, {\"img\": \"16672978504721eey41ditl9y23azt.jpg\"}, {\"img\": \"16672978504721eey41ditl9y23azu.jpg\"}]','03029463719','www.bodyslider.com','[{\"mon\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"tue\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"true\"}}, {\"wed\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"thu\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"true\"}}, {\"fri\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sat\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"true\"}}, {\"sun\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"true\"}}]',0,'2022-11-01 10:17:30','2022-11-01 10:17:30','Pakistan kpk',1,0,'[\"f\", \"f\", \"f\", \"f\"]','comment goes here',0,'Samarbagh'),(27,'First spa','[{\"img\": \"16673061216901eey41kedl9y70l3v.png\"}]','098765432','fjhj','[{\"mon\": {\"to\": \"18:35\", \"from\": \"05:34\", \"isOpen\": \"true\"}}, {\"tue\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"wed\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"thu\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"fri\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sat\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}, {\"sun\": {\"to\": \"\", \"from\": \"\", \"isOpen\": \"Closed\"}}]',0,'2022-11-01 12:35:21','2022-11-01 12:35:21','street 5',7,0,'[\"hgfh\", \"jk\", \"jkhk\"]',NULL,0,'uk');
+/*!40000 ALTER TABLE `spas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `userSessions`
+--
+
+DROP TABLE IF EXISTS `userSessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `userSessions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `expires` datetime DEFAULT NULL,
+  `accessToken` text NOT NULL,
+  `refreshToken` text,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `userSessions_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userSessions`
+--
+
+LOCK TABLES `userSessions` WRITE;
+/*!40000 ALTER TABLE `userSessions` DISABLE KEYS */;
+INSERT INTO `userSessions` VALUES (284,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NjY4ODc0NywiZXhwIjoxNjY2Njk1OTQ3fQ._rzeNDMW1N7g0cGQrCgJYilOt4ERLB-GAuy5HIAQnrg',NULL,'2022-10-25 09:05:47','2022-10-25 09:05:47',7),(285,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NjY5MTA4NywiZXhwIjoxNjY2Njk4Mjg3fQ.LrSfJAcbXSgwykHu7l6TmllSNzKwn-5K3rJy_1MXbNQ',NULL,'2022-10-25 09:44:47','2022-10-25 09:44:47',7),(286,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NjY5ODE0NSwiZXhwIjoxNjY2NzA1MzQ1fQ.kWjJ69KZyYjRmCoAlC8BJkxD6I_AavrR0YalpCVu1Rw',NULL,'2022-10-25 11:42:25','2022-10-25 11:42:25',7),(287,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2Njc3MjY5NCwiZXhwIjoxNjY2Nzc5ODk0fQ.GAcoUQnmn_qJRgRRXwxLzG7fgWhApqZXwXuCeseXT5s',NULL,'2022-10-26 08:24:54','2022-10-26 08:24:54',7),(288,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2Njc4NTQ0NywiZXhwIjoxNjY2NzkyNjQ3fQ.pGgr95oSzMPtGtcJatfFcmf-jojxT0iVQ_rRCtVucIQ',NULL,'2022-10-26 11:57:27','2022-10-26 11:57:27',7),(289,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG90YWRldmVsb3BlckBnbWFpbC5jb20iLCJpYXQiOjE2NjY3ODg2MjEsImV4cCI6MTY2Njc5NTgyMX0.ADQGKrZ9oZmiwun_uofkNC7MKD-L7JKxdePBpGzECHQ',NULL,'2022-10-26 12:50:21','2022-10-26 12:50:21',1),(290,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY4MjU5NjUsImV4cCI6MTY2NjgzMzE2NX0.dw7gbpuxKab4_IH31YUl63deqGyUcnWHl7yMfLd1DPY',NULL,'2022-10-26 23:12:45','2022-10-26 23:12:45',20),(291,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2Njg3NTE5NywiZXhwIjoxNjY2ODgyMzk3fQ.0d1scXC25_NFAwvoUgjRbVY6ZvYnq3f0XJ0l5fgnYso',NULL,'2022-10-27 12:53:17','2022-10-27 12:53:17',7),(292,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY4NzU3MjQsImV4cCI6MTY2Njg4MjkyNH0.Q1TSta3Do2F7H15N69-kdw2uu9_6xxrzcC8PcKw39Mg',NULL,'2022-10-27 13:02:04','2022-10-27 13:02:04',20),(293,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY4NzcxNzYsImV4cCI6MTY2Njg4NDM3Nn0.1YXzFsWfxvJasXQPWSClhvlLyZQlxETaYfks9fxAbpo',NULL,'2022-10-27 13:26:16','2022-10-27 13:26:16',20),(294,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjIsImVtYWlsIjoiZm9yZXZlck5vMVRlY2hpQGdtYWlsLmNvbSIsImlhdCI6MTY2Njg4NzYzOSwiZXhwIjoxNjY2ODk0ODM5fQ.no_WmnDu_Ugx2QgTkHonesntCldS8VQKPzQ8EVgWB5w',NULL,'2022-10-27 16:20:39','2022-10-27 16:20:39',22),(295,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImVtYWlsIjoiYXloYW4ucG9sYXQuMTNAb3V0bG9vay5jb20iLCJpYXQiOjE2NjY4ODg0MjQsImV4cCI6MTY2Njg5NTYyNH0.3Yk6r8hA6OUZTXApy-cE5lWKP-0LkZBj8VAZf8LLlFY',NULL,'2022-10-27 16:33:44','2022-10-27 16:33:44',23),(296,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImVtYWlsIjoiYmxhY2tob2xlLnJzYkBnbWFpbC5jb20iLCJpYXQiOjE2NjY4ODg0ODYsImV4cCI6MTY2Njg5NTY4Nn0.JWcJZc5bW9V6_kUHU1x4AyFG3woeO0uS-MwdTkA5kBM',NULL,'2022-10-27 16:34:46','2022-10-27 16:34:46',25),(297,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImVtYWlsIjoiYWxla3NhbmRyYkB0dW5lbGFiLm5ldCIsImlhdCI6MTY2Njg5MDU5MCwiZXhwIjoxNjY2ODk3NzkwfQ.1qsLhTdhf0vFdrOgVrfErQtvfap7k9XZBR9lRr_9FPA',NULL,'2022-10-27 17:09:50','2022-10-27 17:09:50',26),(298,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjgsImVtYWlsIjoic3VwZXJkZXY3MThAZ21haWwuY29tIiwiaWF0IjoxNjY2ODkzODYxLCJleHAiOjE2NjY5MDEwNjF9.gjyMgGF4QWXMJGI9xR-SXRi0st8yimOCCCbWpGAd9iA',NULL,'2022-10-27 18:04:21','2022-10-27 18:04:21',28),(299,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY4OTQyOTMsImV4cCI6MTY2NjkwMTQ5M30.w5ds8xHJengMa4hLU_M4VHi6AR_NlcKZmVJ5Dp_seoM',NULL,'2022-10-27 18:11:33','2022-10-27 18:11:33',20),(300,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksImVtYWlsIjoiZGV2d29yazQ0QGdtYWlsLmNvbSIsImlhdCI6MTY2Njg5NDQyOCwiZXhwIjoxNjY2OTAxNjI4fQ.bCcveDob2OIhcOZU_Xu0lOSyUe3xvJBfc6mqeuI6JD4',NULL,'2022-10-27 18:13:48','2022-10-27 18:13:48',29),(301,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY5MTMyNTUsImV4cCI6MTY2NjkyMDQ1NX0._84v_bvN0hRTN6w99qOnGl8kV6u93Z3PTKh2dpr1Ij0',NULL,'2022-10-27 23:27:35','2022-10-27 23:27:35',20),(302,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsImVtYWlsIjoibG5vYjNtMXpob0B0b3JvbnRvZmVlbC5jb20iLCJpYXQiOjE2NjY5MTMyOTYsImV4cCI6MTY2NjkyMDQ5Nn0.d92360T09dm1zaw8Dh44RjmBK2Qu_ZsE2ghprsEf84Q',NULL,'2022-10-27 23:28:16','2022-10-27 23:28:16',30),(303,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY5MTM0NDYsImV4cCI6MTY2NjkyMDY0Nn0.IBATX0FaxVP7m-Am9ITemwQhLe-3KB7kp_5R8ofF0vs',NULL,'2022-10-27 23:30:46','2022-10-27 23:30:46',20),(304,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY5MTM4MTQsImV4cCI6MTY2NjkyMTAxNH0.z9Vq_v_C7bIApW3mLd9nYqFVaFefsujsKQjZ9cYvDro',NULL,'2022-10-27 23:36:54','2022-10-27 23:36:54',20),(305,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY5MTQxNjksImV4cCI6MTY2NjkyMTM2OX0.ae5rgDTIDg9Ja4PyCZQkRwdRPaTkDsYWXdDGEL8qlZc',NULL,'2022-10-27 23:42:49','2022-10-27 23:42:49',20),(306,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY5MTQ3NzYsImV4cCI6MTY2NjkyMTk3Nn0.AjURk_2LmwamC1dSS5g2P_1I814eQU6JYWQH7Y6QoBE',NULL,'2022-10-27 23:52:56','2022-10-27 23:52:56',20),(307,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImVtYWlsIjoiTm91bWFuZmlyZG91czYzQGdtYWlsLmNvbSIsImlhdCI6MTY2NjkzNzEwOSwiZXhwIjoxNjY2OTQ0MzA5fQ.Z-Uo-fhLH8GLG-_RYN7rixkZVhcVyFQX_ICY4_90q1U',NULL,'2022-10-28 06:05:09','2022-10-28 06:05:09',31),(308,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImVtYWlsIjoiTm91bWFuZmlyZG91czYzQGdtYWlsLmNvbSIsImlhdCI6MTY2Njk1MDM2MiwiZXhwIjoxNjY2OTU3NTYyfQ.Agw7feweYVC3ITvYBRgr7XbYFFalaJ5ocOXACFqAzfE',NULL,'2022-10-28 09:46:02','2022-10-28 09:46:02',31),(309,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY5NjA2NTAsImV4cCI6MTY2Njk2Nzg1MH0.2jsCqw2siILRRlnYH-4RprxiF3x-mL9zpMgiVsTyYoQ',NULL,'2022-10-28 12:37:30','2022-10-28 12:37:30',20),(310,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjY5NjEyNTksImV4cCI6MTY2Njk2ODQ1OX0.2imSFb2ZAJTaDCprsTGPCfgxnQd0amVIEy0S4-OXcXM',NULL,'2022-10-28 12:47:39','2022-10-28 12:47:39',20),(311,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjcwODYxMzAsImV4cCI6MTY2NzA5MzMzMH0.9mgq6qw-SRhF-d_iTsKPXRtOPMu3fPjVPJUgmu9J9wA',NULL,'2022-10-29 23:28:50','2022-10-29 23:28:50',20),(312,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzIxODc0MiwiZXhwIjoxNjY3MjI1OTQyfQ.VAtDba-6Tv-NyxTemoKLvOMdrHDxkL_8bTHLZMZJrPA',NULL,'2022-10-31 12:19:02','2022-10-31 12:19:02',7),(313,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG90YWRldmVsb3BlckBnbWFpbC5jb20iLCJpYXQiOjE2NjcyODg2NzEsImV4cCI6MTY2NzI5NTg3MX0.TFguiTc68EAmz1jMoAIJFm1a2ikzrns2ZCh-CHNKPSU',NULL,'2022-11-01 07:44:31','2022-11-01 07:44:31',1),(314,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5NjMxMywiZXhwIjoxNjY3MzAzNTEzfQ.bPAct8PXeEGhl0MMreLNIXoQmqCpWByOnbDO6USIqqE',NULL,'2022-11-01 09:51:53','2022-11-01 09:51:53',7),(315,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5NzMxMywiZXhwIjoxNjY3MzA0NTEzfQ.rHpVqy1OjgySK54qS-W51mXiFlbemadZEM5O614H0sE',NULL,'2022-11-01 10:08:33','2022-11-01 10:08:33',7),(316,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5NzMxMywiZXhwIjoxNjY3MzA0NTEzfQ.rHpVqy1OjgySK54qS-W51mXiFlbemadZEM5O614H0sE',NULL,'2022-11-01 10:08:33','2022-11-01 10:08:33',7),(317,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5NzMxMywiZXhwIjoxNjY3MzA0NTEzfQ.rHpVqy1OjgySK54qS-W51mXiFlbemadZEM5O614H0sE',NULL,'2022-11-01 10:08:33','2022-11-01 10:08:33',7),(318,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5NzMxNCwiZXhwIjoxNjY3MzA0NTE0fQ.6QAvFDpb0JTDIsQHgexiNcFcagLZCOxuUQUwBFrIYio',NULL,'2022-11-01 10:08:34','2022-11-01 10:08:34',7),(319,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5NzMxNCwiZXhwIjoxNjY3MzA0NTE0fQ.6QAvFDpb0JTDIsQHgexiNcFcagLZCOxuUQUwBFrIYio',NULL,'2022-11-01 10:08:34','2022-11-01 10:08:34',7),(320,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5NzMxNCwiZXhwIjoxNjY3MzA0NTE0fQ.6QAvFDpb0JTDIsQHgexiNcFcagLZCOxuUQUwBFrIYio',NULL,'2022-11-01 10:08:34','2022-11-01 10:08:34',7),(321,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5NzMxNSwiZXhwIjoxNjY3MzA0NTE1fQ.qKB7V0xdNP8OD_1pjDvDDFmy4dRM1rT6JWlRAl6vJIY',NULL,'2022-11-01 10:08:35','2022-11-01 10:08:35',7),(322,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG90YWRldmVsb3BlckBnbWFpbC5jb20iLCJpYXQiOjE2NjcyOTc3ODgsImV4cCI6MTY2NzMwNDk4OH0.CEisNlnJ7n0_o_qumXfYChRiiKP7pjKg3APmkErDCFc',NULL,'2022-11-01 10:16:28','2022-11-01 10:16:28',1),(323,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzI5Nzk0MCwiZXhwIjoxNjY3MzA1MTQwfQ.5WU_ZehOem6Bdv3N2akbB6919j0uf9GXYHaHwTxKt18',NULL,'2022-11-01 10:19:00','2022-11-01 10:19:00',7),(324,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzMwNTk4NSwiZXhwIjoxNjY3MzEzMTg1fQ.e4yT0sImdr1-sUMzGu4gZacPMlbWFKT8TrnbuOhz6Ow',NULL,'2022-11-01 12:33:05','2022-11-01 12:33:05',7),(325,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJtaW5oYXIuc2hhaGlkQGNvZGlzdGFuLm9yZyIsImlhdCI6MTY2NzMwNjMwNSwiZXhwIjoxNjY3MzEzNTA1fQ.CN3fQtEYPgHr8R7V0hOIpPdm-tKhoouVC-2GQzC6iGw',NULL,'2022-11-01 12:38:25','2022-11-01 12:38:25',7),(326,NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYnNsaWRlc2JvdEBnbWFpbC5jb20iLCJpYXQiOjE2NjczMDg1NDYsImV4cCI6MTY2NzMxNTc0Nn0.YvmVZDk2AJ1_i4WImFERqDdzm4j9te1mQKKz0CrsgY0',NULL,'2022-11-01 13:15:46','2022-11-01 13:15:46',20);
+/*!40000 ALTER TABLE `userSessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `useractivities`
+--
+
+DROP TABLE IF EXISTS `useractivities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `useractivities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `actiontype` varchar(255) NOT NULL,
+  `metadata` json DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `useractivities_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `useractivities`
+--
+
+LOCK TABLES `useractivities` WRITE;
+/*!40000 ALTER TABLE `useractivities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `useractivities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userName` varchar(255) DEFAULT NULL,
+  `firstName` varchar(255) DEFAULT NULL,
+  `lastName` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `isVerified` tinyint(1) NOT NULL DEFAULT '0',
+  `code` int DEFAULT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '1',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `phoneNumber` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email` (`email`),
+  UNIQUE KEY `userName` (`userName`),
+  UNIQUE KEY `userName_2` (`userName`),
+  UNIQUE KEY `userName_3` (`userName`),
+  UNIQUE KEY `userName_4` (`userName`),
+  UNIQUE KEY `userName_5` (`userName`),
+  UNIQUE KEY `userName_6` (`userName`),
+  UNIQUE KEY `userName_7` (`userName`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'adotadeveloper','Arslan','Arshad','adotadeveloper@gmail.com','$2a$12$1pOVVs0Q/u1f1D45/2amgOwAwmH0PSmdfHG8U3LOZPv2lRilgGuRe',NULL,1,9033,0,'2022-08-31 09:42:19','2022-10-21 07:15:45','(406) 555-0120','41 Gower Street, St Georges, TF2 9BL'),(2,'ismail0315','muhammad','ismail','mi477048@gmail.com','$2a$12$KXs9DCobfYHqrLHcq79mmuIVCWOfo7888Yy8sCFAha9UAwMHVJINK',NULL,1,8209,1,'2022-09-13 11:23:32','2022-10-12 12:00:22',NULL,NULL),(3,NULL,NULL,NULL,'lisayip140@edxplus.com',NULL,NULL,1,NULL,1,'2022-09-28 18:52:57','2022-09-28 18:54:53',NULL,NULL),(4,NULL,NULL,NULL,'minherfatehashahid@gmail.com','$2a$12$zniHC0xE0NbhAb7PQRXiQetHx0xbcmSkgLjuGvQcWr/qC/F2YA1Tq',NULL,1,NULL,1,'2022-10-07 08:15:27','2022-11-01 10:03:57',NULL,NULL),(5,NULL,NULL,NULL,'minharshahid@gmail.com',NULL,NULL,0,NULL,1,'2022-10-07 08:16:43','2022-10-07 08:16:43',NULL,NULL),(6,NULL,NULL,NULL,'arslanarshad5254@gmail.com',NULL,NULL,1,NULL,1,'2022-10-10 06:05:18','2022-10-10 06:06:15',NULL,NULL),(7,'minsha','min','shah','minhar.shahid@codistan.org','$2a$12$ioVX1MOakfKva4pKZufJDuNtjsGAsYIvbGKB4Y1G.AKYyulthhiyS',NULL,1,7781,1,'2022-10-10 06:10:11','2022-11-01 10:19:27','098997979','ihkjnm'),(8,'AdilHamaz','adil','hamza','tasareg513@cebaike.com','$2a$12$33QkMjS4F86GpvGHMmy2p.UFbXx6Rd9Li0w4JeP/.Z1jM1MbSx4bW',NULL,1,NULL,1,'2022-10-11 10:56:42','2022-10-11 11:01:37',NULL,NULL),(9,NULL,NULL,NULL,'motine4006@ekbasia.com',NULL,NULL,1,NULL,1,'2022-10-12 12:02:03','2022-10-12 12:03:37',NULL,NULL),(10,'mwaseem','Waseem','Khan','mwaseemkha@gmail.com','$2a$12$6197tlcOZ0bFEkNWJzv7w.bbt2/k2u7A6PXufL3vu6XGVYcD3RQ46',NULL,1,NULL,1,'2022-10-19 09:30:22','2022-10-19 09:31:31',NULL,NULL),(11,NULL,NULL,NULL,'awahab1116@gmaiil.com',NULL,NULL,0,NULL,1,'2022-10-19 10:04:47','2022-10-19 10:04:47',NULL,NULL),(12,NULL,NULL,NULL,'sobeha1309@haboty.com',NULL,NULL,0,NULL,1,'2022-10-19 10:08:30','2022-10-19 10:08:30',NULL,NULL),(13,NULL,NULL,NULL,'baropo2475@charav.com',NULL,NULL,0,NULL,1,'2022-10-19 10:09:51','2022-10-19 10:09:51',NULL,NULL),(14,'Muhammad ','waqas','khan','waqastanoli605@yahoo.com','$2a$12$rUg/csKZn6t2d7MUqNHInOIiGL94fi/LFxSucme2n.fDC4XQQehxi',NULL,1,NULL,1,'2022-10-19 10:12:51','2022-10-19 10:16:32',NULL,NULL),(15,'sam1243','sam','sdsad','abdul.wahab@codistan.org','$2a$12$TlZjo4Li879aJzlPTqhHG.LKaW66R4C1pCe5Zg717zJT8Dgz9Fo1K',NULL,1,NULL,1,'2022-10-19 10:29:49','2022-10-19 10:34:54',NULL,NULL),(16,NULL,NULL,NULL,'jubleej7@gmail.com',NULL,NULL,1,NULL,1,'2022-10-20 11:59:23','2022-10-20 11:59:40',NULL,NULL),(17,'Awahab1116','Abdul','Wahab','awahab1116@gmail.com','$2a$12$HKFyde1GSRfyj.HmSR/7t..bze6fBKegEc3J/4RiVjehjoJDQShyW',NULL,1,NULL,1,'2022-10-22 09:38:23','2022-10-22 09:39:28',NULL,NULL),(18,'andersonmewmew','Andy','U','andyung90@gmail.com','$2a$12$Ra8zTCqki6unZMpgmLbta.vslx0a/0VqrMl6OexbStysrb6djFR9G',NULL,1,NULL,1,'2022-10-23 17:30:02','2022-10-23 17:34:51',NULL,NULL),(19,NULL,NULL,NULL,'irtaza780@gmail.com',NULL,NULL,1,NULL,1,'2022-10-25 10:00:13','2022-10-25 10:00:27',NULL,NULL),(20,'bslidesbot11',NULL,NULL,'bslidesbot@gmail.com','$2a$12$6bcJpG5/wkbLlS4MfqAedevHYtilxVfSnI9q08hod7ic9RHq4XQLK',NULL,1,NULL,1,'2022-10-26 23:08:41','2022-11-01 13:19:14','null','null'),(21,NULL,NULL,NULL,'niagarafallshoney@gmail.com',NULL,NULL,1,NULL,1,'2022-10-27 13:18:48','2022-10-27 13:20:08',NULL,NULL),(22,'Test','Test','foreverNo1Techi@gmail.com','foreverNo1Techi@gmail.com','$2a$12$MlXehTdL4ibGQdgEM.ndHuHRFfBDFfDAMtClDQFq0ELCWeahx7mS2',NULL,1,NULL,1,'2022-10-27 16:19:57','2022-10-27 16:20:37',NULL,NULL),(23,'asdf','asdf','sadf','ayhan.polat.13@outlook.com','$2a$12$HQ9z8pNk56KE01XUne/XneD3VpE1I/pXPYMAwtJrJfOFIE/D5jSGW',NULL,1,NULL,1,'2022-10-27 16:32:35','2022-10-27 16:33:22',NULL,NULL),(24,NULL,NULL,NULL,'marybardy66@gmail.com',NULL,NULL,0,NULL,1,'2022-10-27 16:32:44','2022-10-27 16:32:44',NULL,NULL),(25,'Ares','Ares','Colin','blackhole.rsb@gmail.com','$2a$12$qqtBzr8LY2goRHlj1TQ1HuZVZB1YiPpA6KMa4judscyvmg4vaQCv6',NULL,1,NULL,1,'2022-10-27 16:34:05','2022-10-27 16:34:34',NULL,NULL),(26,'Al','Alex','Bezd','aleksandrb@tunelab.net','$2a$12$dGwUA0vMUWe3.yoKlRv7de2r/yLj2fJP89rTcfn1NF4fgDPNGwNne',NULL,1,NULL,1,'2022-10-27 17:06:59','2022-10-27 17:09:41',NULL,NULL),(27,'leo123','Leonardo','Leo','leoupworkpoa@gmail.com','$2a$12$AXfdJrHKxnxd7JNeNE0fiuSucELhYVcv7/6b06XY1c6qujYAbns6O',NULL,1,NULL,1,'2022-10-27 17:58:52','2022-10-27 17:59:57',NULL,NULL),(28,'rajel718','Mysail','Serohin','superdev718@gmail.com','$2a$12$zbx7Wh8A4Gc90CLZXcO3SecxKLcyc2sX6kdtJg7.SBwyMbSTWcSqS',NULL,1,NULL,1,'2022-10-27 18:02:19','2022-10-27 18:04:12',NULL,NULL),(29,'user152','user','user','devwork44@gmail.com','$2a$12$KCd74qsSY9sfHhPW4dCzw.7xNwrgEAwa/zgfQsJHAUD9w.r4DVY/2',NULL,1,NULL,1,'2022-10-27 18:12:56','2022-10-27 18:13:37',NULL,NULL),(30,'haha','haha','candy','lnob3m1zho@torontofeel.com','$2a$12$yMTCUUDqlO.GGhJFngHMhuhRGb6YLKxc6BoRy1pESe2JERQh3vQBC',NULL,1,NULL,1,'2022-10-27 23:27:28','2022-10-27 23:28:01',NULL,NULL),(31,'oali_Jess','Guy ','Pikesville','Noumanfirdous63@gmail.com','$2a$12$cbLd18GqGkgiP9w/NXW29eCjT69ExoaFG0tMExK.CAc/r.y1LtQC.',NULL,1,NULL,1,'2022-10-28 06:03:43','2022-10-28 06:04:57',NULL,NULL),(32,NULL,NULL,NULL,'qaumair@gmail.com',NULL,NULL,1,NULL,1,'2022-11-01 10:17:23','2022-11-01 10:17:51',NULL,NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-11-01 15:15:29

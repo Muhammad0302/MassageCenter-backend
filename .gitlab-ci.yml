@@ -1,0 +1,68 @@
+stages:
+  #- test
+  - deploy
+  #- build
+
+#build-dev:
+#  image: "node:16"
+#  only:
+#   - test
+#  script:
+#    - "npm install"
+#    - "npm run"
+#  stage: build
+
+# test-dev:
+#   script:
+#     - "echo \"Code is tested\""
+#   stage: test
+
+deploy-dev:
+  before_script:
+    - "apk add --no-cache openssh"
+    - "mkdir -p ~/.ssh"
+    - 'eval "$(ssh-agent -s)"'
+    - "echo \"$SSH_PRIVATE_KEY\" | tr -d '\\r' | ssh-add -"
+    - "chmod 700 ~/.ssh"
+    - ssh-keyscan -H "$client" >> ~/.ssh/known_hosts
+  image: alpine
+  only:
+    - dev
+  script:
+    - pwd
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client"
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" set -f
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" sudo mkdir /home/ubuntu/backup
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" sudo cp -r /home/ubuntu/Body-slide/backend/app/upload /home/ubuntu/backup/upload
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" sudo rm -rf /home/ubuntu/Body-slide/backend
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" "cd /home/ubuntu/Body-slide && sudo git clone https://gitlab+deploy-token-1476148:-EmgA9ieUSfStpzoiRWh@gitlab.com/Codistan/bodyslides/backend.git"
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" "cd /home/ubuntu/Body-slide/backend && sudo git checkout dev"
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" sudo chmod -R 777 /home/ubuntu/Body-slide/backend
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" "cd /home/ubuntu/Body-slide/backend && sudo echo $'
+      PORT = 4000 \n
+      SESSION_SECRET =yoursecret \n
+      DB_HOST=localhost \n
+      DB_PORT=3306 \n
+      DB_DATABASE=BodySlide \n
+      DB_USERNAME=root \n
+      DB_PASSWORD=mynewpassword \n
+      ACCESS_TOKEN_EXPIRY=2h \n
+      BCRYPT_SALT = 12 \n
+      JWT_TOKEN_KEY=mytokenkeyquweyiuqwey \n
+      ADMIN_JWT_TOKEN_KEY=myAdminJWT8732yeuhwkdnadkj \n
+      FROM=bslidesbot@gmail.com \n
+      JWT_VERIFY_TOKEN_KEY=sds \n
+      PASSWORD=zgvirgyepwmdqcjb \n
+      FRONT_END_URL=https://bodyslides.ca \n
+      ELASTIC_NAME = "elastic" \n
+      ELASTIC_PASSWORD = "changeme" \n
+      SERVER_URL = "https://bodyslides.ca"
+      ' > .env"
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" sudo cp -a /home/ubuntu/backup/upload/. /home/ubuntu/Body-slide/backend/app/upload
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" sudo rm -r /home/ubuntu/backup
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" echo "Running npm install"
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" "cd /home/ubuntu/Body-slide/backend && npm install"
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" pm2 restart API
+    - ssh -o StrictHostKeyChecking=no ubuntu@"$client" sudo chmod -R 777 /home/ubuntu/Body-slide/backend
+
+  stage: deploy
